@@ -7,8 +7,8 @@ jobs:
     matrix:
       x64:
         buildArch: x64
-      x86:
-        buildArch: x86
+      # x86:
+      #   buildArch: x86
 
   pool:
     vmImage: vs2015-win2012r2 # needed for python 2.7 and gyp
@@ -81,8 +81,9 @@ jobs:
   - powershell: $env:TEMP = (Get-Item -LiteralPath $env:TEMP).FullName
     displayName: Normalize %TEMP% as a long (non 8.3) path
 
-  - script: node script\vsts\windows-run.js script\test.cmd
+  - script: node script\vsts\windows-run.js script\test.cmd --package
     env:
+      ATOM_PACKAGES_TO_TEST: github
       CI: true
       CI_PROVIDER: VSTS
       ATOM_JASMINE_REPORTER: list
